@@ -5,17 +5,25 @@ FROM node:alpine
 WORKDIR /code
 
 ADD package.json /code
-RUN npm install 
+
+# 设置淘宝npm镜像
+RUN npm install -g cnpm --registry=https://registry.npm.taobao.org
+
+RUN cnpm install 
 
 ADD . /code
 
 RUN npm run build
 
-# 选择更小体积的基础镜像
-FROM nginx:alpine
-COPY --from=builder code/public/index.html code/public/favicon.ico /usr/share/nginx/html/
-COPY --from=builder code/public/static /usr/share/nginx/html/static
+# 前端项目运行命令
+#CMD ["npm","run","start"]
+
+
+FROM nginx:1.15.3-alpine as production-stage
+
+COPY  --from=build-stage /dist /usr/share/nginx/html
+
 
 EXPOSE 80
 
-CMD ["/usr/sbin/nginx", "-g","daemon off;"]  
+CMD ["nginx", "-g","daemon off;"]  
