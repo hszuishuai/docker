@@ -5,4 +5,5 @@ services:
       restart:  always
       build: 
         context: .
-      ports: 8080:80
+      ports: 
+        - 8080:80
