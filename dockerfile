@@ -19,9 +19,9 @@ RUN npm run build
 #CMD ["npm","run","start"]
 
 
-FROM nginx:1.15.3 AS build
+FROM nginx:1.15.3 
 
-COPY  --from=build /dist /usr/share/nginx/html
+COPY  --from=0 /dist /usr/share/nginx/html
 
 
 EXPOSE 80
