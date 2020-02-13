@@ -19,7 +19,7 @@ RUN npm run build
 #CMD ["npm","run","start"]
 
 
-FROM nginx:1.15.3-alpine as production-stage
+FROM nginx:1.15.3
 
 COPY  --from=build-stage /dist /usr/share/nginx/html
 
