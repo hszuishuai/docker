@@ -1,6 +1,6 @@
 # node
 
-FROM node:alpine
+FROM node:alpine AS stage
 
 WORKDIR /code
 
@@ -21,8 +21,7 @@ RUN npm run build
 
 FROM nginx:1.15.3 
 
-COPY  --from=0 /dist /usr/share/nginx/html
-
+COPY  --from=stage /dist /usr/share/nginx/html
 
 EXPOSE 80
 
